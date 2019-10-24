@@ -4,25 +4,22 @@
       <div class="modal-background"></div>
       <div class="modal-card">
         <header class="modal-card-head">
-          Update Post
+          <p class="modal-card-title">Update post</p>
+          <button class="delete" aria-label="close" @click="toggle"></button>
         </header>
         <section class="modal-card-body">
-          <div class="field">
-            <div class="control">
-              <input v-model="title" class="input" type="text" placeholder="title">
-            </div>
-          </div>
-          <div class="field">
-            <div class="control">
-              <textarea v-model="body" class="textarea"  placeholder="enter content"></textarea>
-            </div>
-          </div>
-          <button @click="update" class="button is-primary is-pulled-right">Post</button>
+          <div class="control">
+            <input v-model="title" class="input" type="text" placeholder="Title">
+          </div><br>
+          <textarea v-model="body" class="textarea" placeholder="Enter content"></textarea>
         </section>
+        <footer class="modal-card-foot">
+          <button @click="update" class="button is-success is-outlined is-fullwidth is-rounded">Update</button>
+        </footer>
       </div>
-      <button @click="toggle" class="modal-close is-large" aria-label="close"></button>
     </div>
-    <button @click="toggle" class="button is-small is-pulled-right">Update</button>
+    <!-- <button @click="toggle" class="button is-small is-pulled-right is-">Update</button> -->
+    <button @click="toggle" class="button is-pulled-right is-small">Update</button>
   </div>
 </template>
 

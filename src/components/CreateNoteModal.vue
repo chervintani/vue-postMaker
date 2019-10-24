@@ -1,57 +1,53 @@
 <template>
-  <div>
+  <div style="margin-top:8%">
+    <button @click="toggle" class="button is-link is-outlined is-rounded">Create Post</button>
+    <br>
     <div class="modal" :class="{ 'is-active': isActive }">
       <div class="modal-background"></div>
       <div class="modal-card">
         <header class="modal-card-head">
-          Make a Post
+          <p class="modal-card-title">Add a post</p>
+          <button class="delete" aria-label="close" @click="toggle"></button>
         </header>
         <section class="modal-card-body">
-          <div class="field">
-            <div class="control">
-              <input v-model="title" class="input" type="text" placeholder="Title">
-            </div>
-          </div>
-          <div class="field">
-            <div class="control">
-              <textarea v-model="body" class="textarea"  placeholder="Enter content"></textarea>
-            </div>
-          </div>
-          <button @click="create" class="button is-primary is-pulled-right">Post</button>
+          <div class="control">
+            <input v-model="title" class="input" type="text" placeholder="Title">
+          </div><br>
+          <textarea v-model="body" class="textarea" placeholder="Enter content"></textarea>
         </section>
+        <footer class="modal-card-foot">
+          <button @click="create" class="button is-success is-outlined is-fullwidth is-rounded">Post</button>
+        </footer>
       </div>
-      <button @click="toggle" class="modal-close is-large" aria-label="close"></button>
     </div>
-    <button @click="toggle" class="button is-primary is-pulled-right">Create Post</button>
-    <br>
   </div>
 </template>
 
 <script>
-import { createNote }  from '../repository'
+import { createNote } from "../repository";
 export default {
-  name: 'CreateNoteModal',
-  data(){
+  name: "CreateNoteModal",
+  data() {
     return {
-      title: '',
-      body: '',
+      title: "",
+      body: "",
       isActive: false
-    }
+    };
   },
   methods: {
-    create(){
-      let data = { title: this.title, body: this.body }
+    create() {
+      let data = { title: this.title, body: this.body };
       createNote(data)
         .then(data => {
-          this.$emit('createNote', data.note);
-          this.title = this.body = '';
+          this.$emit("createNote", data.note);
+          this.title = this.body = "";
           this.toggle();
         })
         .catch(err => alert(err.message));
     },
-    toggle(){
+    toggle() {
       this.isActive = !this.isActive;
-    },
-  },
-}
+    }
+  }
+};
 </script>
