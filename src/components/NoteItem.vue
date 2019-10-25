@@ -1,5 +1,5 @@
 <template>
-  <article class="message is-info">
+  <article class="message is-info" style="margin-top: 5%">
     <div class="message-header">
       <p>Post Title: {{ note.title }}</p>
 

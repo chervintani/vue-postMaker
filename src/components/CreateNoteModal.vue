@@ -1,6 +1,6 @@
 <template>
   <div style="margin-top:8%">
-    <button @click="toggle" class="button is-link is-outlined is-rounded">Create Post</button>
+    <button @click="toggle" class="button is-light is-outlined is-rounded">Create Post</button>
     <br>
     <div class="modal" :class="{ 'is-active': isActive }">
       <div class="modal-background"></div>

@@ -1,24 +1,34 @@
 <template>
   <div id="app">
-    <nav class="navbar is-link is-fixed-top">
-  <div class="navbar-brand" style="padding: 20px">
-    <div>
-    <h1 class="title is-3" style="color: white">PostMaker<br></h1>
-    <h1 class="title is-5" style="color: white">Post your feelings!</h1>
-    </div>
-    <div class="navbar-burger burger" data-target="navbarExampleTransparentExample">
-      <span></span>
-      <span></span>
-      <span></span>
-    </div> 
-  </div>
+    <nav class="navbar is-link is-fixed-top" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+        <p class="title is-2 has-text-light" style="padding-top:10%;">PostMaker</p>
+        <a
+          role="button"
+          class="navbar-burger burger"
+          aria-label="menu"
+          aria-expanded="false"
+          data-target="navbarBasicExample"
+        >
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
 
-</nav>
+      <div id="navbarBasicExample" class="navbar-menu">
+        <div class="navbar-end">
+          <div class="navbar-item">
+            <CreateNoteModal @createNote="createNote"/>
+          </div>
+        </div>
+      </div>
+    </nav>
     <br>
     <br>
     <div class="container">
       <div v-if="notes">
-        <CreateNoteModal @createNote="createNote"/>
+        <!-- <CreateNoteModal @createNote="createNote"/> -->
         <br>
         <div>
           <noteItem
@@ -31,7 +41,7 @@
         </div>
       </div>
     </div>
-
+    
     <footer class="footer">
       <div class="content has-text-centered">
         <p>
@@ -67,7 +77,7 @@ export default {
     },
     createNote(note) {
       this.notes = [note, ...this.notes];
-    }
+    },
   },
   mounted() {
     getNotes()

@@ -27,3 +27,5 @@ export function updateNote(data, id) {
 		})
 		.catch(err => Promise.reject(err.message));
 }
+
+
