@@ -28,7 +28,6 @@
     <br>
     <div class="container">
       <div v-if="notes">
-        <!-- <CreateNoteModal @createNote="createNote"/> -->
         <br>
         <div>
           <noteItem
