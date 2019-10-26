@@ -3,14 +3,23 @@ const Schema = mongoose.Schema;
 
 const NoteSchema = Schema(
     {
-        title: {type: String, required: true},
-        body: {type: String, required: true},
-    }, 
+        title: { type: String, required: true },
+        body: { type: String, required: true },
+    },
     {
         timestamps: true
     }
 );
 
-const Note = mongoose.model("Note", NoteSchema);
+const DeletedSchema = Schema({
+    title: { type: String, required: true },
+    body: { type: String, required: true },
+},
+    {
+        timestamps: true
+    })
 
-module.exports = Note;
+
+const Note = mongoose.model("Note", NoteSchema);
+const Delete = mongoose.model("Delete", DeletedSchema);
+module.exports = {Note, Delete};

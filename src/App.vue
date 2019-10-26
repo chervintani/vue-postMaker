@@ -1,30 +1,20 @@
 <template>
   <div id="app">
-    <nav class="navbar is-link is-fixed-top" role="navigation" aria-label="main navigation">
-      <div class="navbar-brand">
-        <p class="title is-2 has-text-light" style="padding-top:10%;">PostMaker</p>
-        <a
-          role="button"
-          class="navbar-burger burger"
-          aria-label="menu"
-          aria-expanded="false"
-          data-target="navbarBasicExample"
-        >
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </a>
-      </div>
+    <b-navbar class="is-link is-fixed-top">
+        <template slot="brand">
+            <b-navbar-item tag="router-link" :to="{ path: '/' }">
+                <p class="title is-3 has-text-light" style="padding-top:10%;">PostMaker</p>
+            </b-navbar-item>
+        </template>
 
-      <div id="navbarBasicExample" class="navbar-menu">
-        <div class="navbar-end">
-          <div class="navbar-item">
-            <CreateNoteModal @createNote="createNote"/>
-          </div>
-        </div>
-      </div>
-    </nav>
-    <br>
+        <template slot="end">
+            <b-navbar-item tag="div">
+                <div class="buttons">
+                    <CreateNoteModal @createNote="createNote"/>
+                </div>
+            </b-navbar-item>
+        </template>
+    </b-navbar>
     <br>
     <div class="container">
       <div v-if="notes">
@@ -40,7 +30,6 @@
         </div>
       </div>
     </div>
-    
     <footer class="footer">
       <div class="content has-text-centered">
         <p>

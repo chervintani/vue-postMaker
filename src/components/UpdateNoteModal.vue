@@ -10,11 +10,15 @@
         <section class="modal-card-body">
           <div class="control">
             <input v-model="title" class="input" type="text" placeholder="Title">
-          </div><br>
+          </div>
+          <br>
           <textarea v-model="body" class="textarea" placeholder="Enter content"></textarea>
         </section>
         <footer class="modal-card-foot">
-          <button @click="update" class="button is-success is-outlined is-fullwidth is-rounded">Update</button>
+          <button
+            @click="update"
+            class="button is-success is-outlined is-fullwidth is-rounded"
+          >Update</button>
         </footer>
       </div>
     </div>
@@ -24,30 +28,34 @@
 </template>
 
 <script>
-import { updateNote }  from '../repository'
+import { updateNote } from "../repository";
 export default {
-  name: 'UpdateNoteModal',
-  data(){
+  name: "UpdateNoteModal",
+  data() {
     return {
       title: this.note.title,
       body: this.note.body,
       isActive: false
-    }
+    };
   },
-  props: ['note'],
+  props: ["note"],
   methods: {
-    update(){
-      let data = { title: this.title, body: this.body }
+    update() {
+      let data = { title: this.title, body: this.body };
+      this.$buefy.toast.open({
+        message: this.note.title+" is updated successfully!",
+        type: "is-success"
+      });
       updateNote(data, this.note._id)
         .then(data => {
-          this.$emit('updateNote', data.note);
+          this.$emit("updateNote", data.note);
           this.toggle();
         })
         .catch(err => alert(err.message));
     },
-    toggle(){
+    toggle() {
       this.isActive = !this.isActive;
-    },
-  },
-}
+    }
+  }
+};
 </script>

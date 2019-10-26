@@ -11,9 +11,16 @@
         </header>
         <section class="modal-card-body">
           <div class="control">
-            <input v-model="title" class="input" type="text" placeholder="Title">
-          </div><br>
-          <textarea v-model="body" class="textarea" placeholder="Enter content"></textarea>
+            <!-- <input v-model="title" class="input" type="text" placeholder="Title"> -->
+            <b-field label="Enter a title">
+              <b-input placeholder="Title" v-model="title"></b-input>
+            </b-field>
+          </div>
+          <br>
+          <b-field label="Put a content..." :label-position="labelPosition" rounded>
+            <b-input maxlength="200" v-model="body" type="textarea" placeholder="Say what you want to say..."></b-input>
+          </b-field>
+          <!-- <textarea v-model="body" class="textarea" placeholder="Enter content"></textarea> -->
         </section>
         <footer class="modal-card-foot">
           <button @click="create" class="button is-success is-outlined is-fullwidth is-rounded">Post</button>
@@ -42,6 +49,10 @@ export default {
           this.$emit("createNote", data.note);
           this.title = this.body = "";
           this.toggle();
+          this.$buefy.toast.open({
+            message: "Posted successfully!",
+            type: "is-success"
+          });
         })
         .catch(err => alert(err.message));
     },
