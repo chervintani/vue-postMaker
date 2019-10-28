@@ -22,6 +22,7 @@
 import { deleteNote } from "../repository";
 import UpdateNoteModal from "./UpdateNoteModal";
 import Moment from "moment";
+import axios from "axios";
 
 export default {
   name: "NoteItem",
@@ -30,22 +31,33 @@ export default {
   methods: {
     deleteNote(e) {
       e.preventDefault();
+      const title = this.note.title
+      const body = this.note.body
+
       this.$buefy.snackbar.open({
         duration: 5000,
         message:
-          this.note.title+ " is deleted successfully!<br>Note: <em>Message can include html</em>.",
+          this.note.title +
+          " is deleted successfully!<br><em>Click UNDO to restore post</em>.",
         type: "is-danger",
         position: "is-bottom-left",
-        actionText: "Close",
+        actionText: "Undo",
         queue: false,
         onAction: () => {
-          this.$buefy.toast.open({
-            message: "Case closed",
-            queue: false
-          });
+          axios
+            .post("http://localhost:5000/api/note/create", {
+              title: title,
+              body: body
+            })
+            .then(response => {
+              this.$buefy.toast.open({
+                message: "Refresh page to undo the post",
+                queue: false
+              });
+            });
         }
       });
-      deleteNote(this.note._id)
+       deleteNote(this.note._id)
         .then(() => this.$emit("deleteNote", this.note._id))
         .catch(err => alert(err));
     },

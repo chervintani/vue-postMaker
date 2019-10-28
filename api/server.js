@@ -26,7 +26,6 @@ app.get('/api/note/list', (req, res) => {
   schema.Note.find({}).sort({ updatedAt: 'descending' }).exec((err, notes) => {
     if (err)
       return res.status(404).send('Error while getting notes!');
-
     return res.send({ notes });
   });
 });
@@ -35,7 +34,6 @@ app.post('/api/note/create', (req, res) => {
   const note = new schema.Note({ body: req.body.body, title: req.body.title });
   note.save((err) => {
     if (err) return res.status(404).send({ message: err.message });
-
     return res.send({ note });
   });
 });
@@ -49,19 +47,13 @@ app.post('/api/note/update/:id', (req, res) => {
 });
 
 app.post('/api/note/delete/:id', (req, res) => {
-  schema.Note.findById(req.params.id, function (err, user) {
-    if (err) throw err;
-    console.log(user);
-    const deleted = new schema.Delete({ body: user.body, title: user.title });
-    deleted.save((err) => {
-      if (err) return res.status(404).send({ message: err.message });
-    });
+  console.log(req.params.id)
     schema.Note.findByIdAndRemove(req.params.id, (err) => {
       if (err) return res.status(404).send({ message: err.message });
       return res.send({ message: 'note deleted!' });
     });
-  });
 });
+
 
 const PORT = 5000;
 

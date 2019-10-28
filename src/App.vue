@@ -1,19 +1,19 @@
 <template>
   <div id="app">
     <b-navbar class="is-link is-fixed-top">
-        <template slot="brand">
-            <b-navbar-item tag="router-link" :to="{ path: '/' }">
-                <p class="title is-3 has-text-light" style="padding-top:10%;">PostMaker</p>
-            </b-navbar-item>
-        </template>
+      <template slot="brand">
+        <b-navbar-item>
+          <p class="title is-3 has-text-light" style="padding-top:10%;">PostMaker</p>
+        </b-navbar-item>
+      </template>
 
-        <template slot="end">
-            <b-navbar-item tag="div">
-                <div class="buttons">
-                    <CreateNoteModal @createNote="createNote"/>
-                </div>
-            </b-navbar-item>
-        </template>
+      <template slot="end">
+        <b-navbar-item tag="div">
+          <div class="buttons">
+            <CreateNoteModal @createNote="createNote"/>
+          </div>
+        </b-navbar-item>
+      </template>
     </b-navbar>
     <br>
     <div class="container">
@@ -44,7 +44,7 @@
 <script>
 import NoteItem from "./components/NoteItem.vue";
 import CreateNoteModal from "./components/CreateNoteModal.vue";
-import { getNotes } from "./repository";
+import { getNotes, getNotes2 } from "./repository";
 
 export default {
   name: "app",
@@ -65,7 +65,7 @@ export default {
     },
     createNote(note) {
       this.notes = [note, ...this.notes];
-    },
+    }
   },
   mounted() {
     getNotes()

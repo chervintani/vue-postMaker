@@ -7,7 +7,7 @@ export function getNotes() {
 		.then(response => response.data);
 }
 
-export function deleteNote(id){
+export function deleteNote(id) {
 	return axios.post(`${BASE_URL}/api/note/delete/${id}`)
 		.then(response => response.data)
 		.catch(err => Promise.reject(err.message));
@@ -27,5 +27,13 @@ export function updateNote(data, id) {
 		})
 		.catch(err => Promise.reject(err.message));
 }
+
+// export function undoNote() {
+// 	return axios.post(`${BASE_URL}/api/note/undo`)
+// 		.then(response => {
+// 			return response
+// 		})
+// 		.catch(err => Promise.reject(err.message));
+// }
 
 
