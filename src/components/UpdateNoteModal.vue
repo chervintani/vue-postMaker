@@ -13,6 +13,8 @@
           </div>
           <br>
           <textarea v-model="body" class="textarea" placeholder="Enter content"></textarea>
+          <br>
+          <b-input placeholder="Add location" v-model="location"></b-input>
         </section>
         <footer class="modal-card-foot">
           <button
@@ -22,8 +24,7 @@
         </footer>
       </div>
     </div>
-    <!-- <button @click="toggle" class="button is-small is-pulled-right is-">Update</button> -->
-    <button @click="toggle" class="button is-pulled-right is-small">Update</button>
+    <button @click="toggle" class="button is-small is-primary">Update</button>
   </div>
 </template>
 
@@ -33,15 +34,17 @@ export default {
   name: "UpdateNoteModal",
   data() {
     return {
+      labelPosition: 'on-border',
       title: this.note.title,
       body: this.note.body,
+      location: this.note.location,
       isActive: false
     };
   },
   props: ["note"],
   methods: {
     update() {
-      let data = { title: this.title, body: this.body };
+      let data = { title: this.title, body: this.body, location: this.location };
       this.$buefy.toast.open({
         message: this.note.title+" is updated successfully!",
         type: "is-success"

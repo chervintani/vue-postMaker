@@ -1,17 +1,21 @@
 <template>
   <article class="message is-info" style="margin-top: 5%">
     <div class="message-header">
-      <p>Post Title: {{ note.title }}</p>
-
+      <p>Event Title: {{ note.title }}</p>
       <button @click="deleteNote" class="delete" aria-label="delete"></button>
     </div>
     <div class="message-body">
-      {{ note.body }}
+      <b-field label="About">
+      <p>{{note.body}}</p>
+      </b-field>
       <br>
+      <b-field label="Location">
+      <p>{{note.location}}</p>
+      </b-field>
       <br>
-      <span class="has-text-grey-light">Created at: {{ note.createdAt | moment }}</span>
+      <span class="has-text-grey-light">Created at: {{ note.createdat | moment }}</span>
       <br>
-      <span class="has-text-grey-light">Last updated: {{ note.updatedAt | moment }}</span>
+      <span class="has-text-grey-light">Last updated: {{ note.updatedat | moment }}</span>
       <br>
       <UpdateNoteModal :note="note" @updateNote="updateNote" :key="note._id"/>
     </div>
@@ -19,10 +23,9 @@
 </template>
 
 <script>
-import { deleteNote } from "../repository";
+import { deleteNote , createNote } from "../repository";
 import UpdateNoteModal from "./UpdateNoteModal";
 import Moment from "moment";
-import axios from "axios";
 
 export default {
   name: "NoteItem",
@@ -33,7 +36,7 @@ export default {
       e.preventDefault();
       const title = this.note.title
       const body = this.note.body
-
+      const location = this.note.location
       this.$buefy.snackbar.open({
         duration: 5000,
         message:
@@ -44,12 +47,10 @@ export default {
         actionText: "Undo",
         queue: false,
         onAction: () => {
-          axios
-            .post("http://localhost:5000/api/note/create", {
-              title: title,
-              body: body
-            })
-            .then(response => {
+          let data = {title: title, body: body, location: location}
+          createNote(data)
+            .then(data => {
+              this.$emit("createNote", data.note);
               this.$buefy.toast.open({
                 message: "Refresh page to undo the post",
                 queue: false
@@ -63,7 +64,7 @@ export default {
     },
     updateNote(note) {
       this.$emit("updateNote", note);
-    }
+    },
   },
   filters: {
     moment(date) {

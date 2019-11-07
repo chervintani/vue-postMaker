@@ -3,7 +3,7 @@
     <b-navbar class="is-link is-fixed-top">
       <template slot="brand">
         <b-navbar-item>
-          <p class="title is-3 has-text-light" style="padding-top:10%;">PostMaker</p>
+          <p class="title is-3 has-text-light">EventList</p>
         </b-navbar-item>
       </template>
 
@@ -44,7 +44,7 @@
 <script>
 import NoteItem from "./components/NoteItem.vue";
 import CreateNoteModal from "./components/CreateNoteModal.vue";
-import { getNotes, getNotes2 } from "./repository";
+import { getNotes } from "./repository";
 
 export default {
   name: "app",
@@ -74,3 +74,9 @@ export default {
   }
 };
 </script>
+<style scoped>
+  .title {
+    padding-top:10%;
+  };
+
+</style>
