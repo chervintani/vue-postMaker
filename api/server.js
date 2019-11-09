@@ -1,5 +1,3 @@
-'use strict';
-
 const express = require('express');
 const app = express();
 const jwt = require('jsonwebtoken');
@@ -24,13 +22,6 @@ mongoose.Promise = global.Promise;
 app.use(bodyParser.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
-
-var Storage = multer.diskStorage({
-  destination: "./public/",
-  filename: (req, file, cb) => {
-    cb(null, file.filename + "_" + Date.now() + path.extname(file.originalname));
-  }
-})
 
 app.get('/api/note/list', (req, res) => {
   schema.Post.find({}).sort({ updatedAt: 'descending' }).exec((err, notes) => {
@@ -71,8 +62,6 @@ app.post('/api/note/delete/:id', (req, res) => {
     return res.send({ message: 'note deleted!' });
   });
 });
-
-
 
 
 const PORT = 5000;

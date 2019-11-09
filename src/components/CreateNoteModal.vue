@@ -34,17 +34,15 @@
             ></b-input>
           </b-field>
           <!-- <textarea v-model="body" class="textarea" placeholder="Enter content"></textarea> -->
-          <b-field label="Add a photo of the event:">
-            <b-field class="file">
-              <label for="upload-file">A proper input label</label>
-
               <div class="upload-button">
                 <div class="upload-cover">Upload image</div>
                 <input type="file" accept="image/*" @change="encodeToBase64" id="file">
               </div>
+              <div class="fileUpload btn btn-primary">
+                <span>Upload</span>
+                <input type="file" accept="image/*" @change="encodeToBase64" id="file" class="upload">
+              </div>
               <span class="file-name" id="filename" v-if="file">{{ file.name }}</span>
-            </b-field>
-          </b-field>
         </section>
 
         <footer class="modal-card-foot">
@@ -56,8 +54,8 @@
 </template>
 
 <script>
-import { createNote, uploadImage } from "../repository";
-import axios from "axios";
+import { createNote } from "../repository";
+
 export default {
   name: "CreateNoteModal",
   data() {
@@ -76,7 +74,7 @@ export default {
       event.preventDefault();
       const file = event.target.files[0];
       const canvas = document.createElement("canvas");
-      const ctx = canvas.getContext("2d");
+      canvas.getContext("2d");
       const reader = new FileReader();
       reader.onload = event => {
         const img = new Image();
@@ -96,9 +94,6 @@ export default {
       reader.readAsDataURL(file);
     },
     create() {
-      let buf = Buffer.from(this.images.image, "base64");
-      console.log(buf);
-
       let data = {
         title: this.title,
         body: this.body,
@@ -123,12 +118,6 @@ export default {
             });
           })
           .catch(err => alert(err.message));
-        // axios
-        //   .post("http://localhost:5000/upload", this.images)
-        //   .then(response => {
-        //     console.log("image upload response > ", response);
-        //   })
-        //   .catch(console.info("Warning : Image too large"));
       }
     },
     toggle() {
@@ -197,5 +186,21 @@ label {
 body {
   font-family: arial;
   padding: 3em;
+}
+.fileUpload {
+    position: relative;
+    overflow: hidden;
+    margin: 10px;
+}
+.fileUpload input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
 }
 </style>
