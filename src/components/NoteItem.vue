@@ -65,7 +65,7 @@ export default {
         actionText: "Undo",
         queue: false,
         onAction: () => {
-          let data = { title: title, body: body, location: location };
+          let data = { title: title, body: body, location: location, filename: filename, image: image };
           createNote(data).then(data => {
             this.$emit("createNote", data.note);
             this.$buefy.toast.open({
