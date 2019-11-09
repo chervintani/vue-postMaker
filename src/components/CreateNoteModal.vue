@@ -34,15 +34,15 @@
             ></b-input>
           </b-field>
           <!-- <textarea v-model="body" class="textarea" placeholder="Enter content"></textarea> -->
-              <div class="upload-button">
-                <div class="upload-cover">Upload image</div>
-                <input type="file" accept="image/*" @change="encodeToBase64" id="file">
-              </div>
-              <div class="fileUpload btn btn-primary">
-                <span>Upload</span>
-                <input type="file" accept="image/*" @change="encodeToBase64" id="file" class="upload">
-              </div>
-              <span class="file-name" id="filename" v-if="file">{{ file.name }}</span>
+          <div class="upload-button">
+            <div class="upload-cover">Upload image</div>
+            <input type="file" accept="image/*" @change="encodeToBase64" id="file">
+          </div>
+          <div class="fileUpload btn btn-primary">
+            <span>Upload</span>
+            <input type="file" accept="image/*" @change="encodeToBase64" id="file" class="upload">
+          </div>
+          <span class="file-name" id="filename" v-if="file">{{ file.name }}</span>
         </section>
 
         <footer class="modal-card-foot">
@@ -109,6 +109,10 @@ export default {
       } else {
         createNote(data)
           .then(data => {
+            const loadingComponent = this.$buefy.loading.open({
+              container: null
+            });
+            setTimeout(() => loadingComponent.close(), 1 * 1000);
             this.$emit("createNote", data.note);
             this.title = this.body = "";
             this.toggle();
@@ -188,19 +192,19 @@ body {
   padding: 3em;
 }
 .fileUpload {
-    position: relative;
-    overflow: hidden;
-    margin: 10px;
+  position: relative;
+  overflow: hidden;
+  margin: 10px;
 }
 .fileUpload input.upload {
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin: 0;
-    padding: 0;
-    font-size: 20px;
-    cursor: pointer;
-    opacity: 0;
-    filter: alpha(opacity=0);
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  cursor: pointer;
+  opacity: 0;
+  filter: alpha(opacity=0);
 }
 </style>
