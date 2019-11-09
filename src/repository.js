@@ -13,7 +13,7 @@ export function deleteNote(id) {
 		.catch(err => Promise.reject(err.message));
 }
 export function createNote(data) {
-	return axios.post(`${BASE_URL}/api/note/create`, { title: data.title, body: data.body, location: data.location })
+	return axios.post(`${BASE_URL}/api/note/create`, { title: data.title, body: data.body, location: data.location, filename: data.filename,image: data.image })
 		.then(response => {
 			return response.data
 		})

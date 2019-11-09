@@ -6,12 +6,14 @@
     </div>
     <div class="message-body">
       <b-field label="About">
-      <p>{{note.body}}</p>
+        <p>{{note.body}}</p>
       </b-field>
       <br>
       <b-field label="Location">
-      <p>{{note.location}}</p>
+        <p>{{note.location}}</p>
       </b-field>
+      <br>
+      <img v-bind:src="note.image" id="image" @click="imageModal()">
       <br>
       <span class="has-text-grey-light">Created at: {{ note.createdat | moment }}</span>
       <br>
@@ -23,20 +25,36 @@
 </template>
 
 <script>
-import { deleteNote , createNote } from "../repository";
+import { deleteNote, createNote } from "../repository";
 import UpdateNoteModal from "./UpdateNoteModal";
 import Moment from "moment";
 
 export default {
   name: "NoteItem",
   props: ["note"],
+  data() {
+    return {
+      members: {
+        picture: require("../assets/logo.png")
+      }
+    };
+  },
   components: { UpdateNoteModal },
   methods: {
+    imageModal() {
+      this.$buefy.modal.open(
+        `<p class="image is-4by3">
+                        <img src="https://buefy.org/static/img/placeholder-1280x960.png">
+                    </p>`
+      );
+    },
     deleteNote(e) {
       e.preventDefault();
-      const title = this.note.title
-      const body = this.note.body
-      const location = this.note.location
+      const title = this.note.title;
+      const body = this.note.body;
+      const location = this.note.location;
+      const filename = this.note.filename;
+      const image = this.note.image;
       this.$buefy.snackbar.open({
         duration: 5000,
         message:
@@ -47,24 +65,23 @@ export default {
         actionText: "Undo",
         queue: false,
         onAction: () => {
-          let data = {title: title, body: body, location: location}
-          createNote(data)
-            .then(data => {
-              this.$emit("createNote", data.note);
-              this.$buefy.toast.open({
-                message: "Refresh page to undo the post",
-                queue: false
-              });
+          let data = { title: title, body: body, location: location };
+          createNote(data).then(data => {
+            this.$emit("createNote", data.note);
+            this.$buefy.toast.open({
+              message: "Refresh page to undo the post",
+              queue: false
             });
+          });
         }
       });
-       deleteNote(this.note._id)
+      deleteNote(this.note._id)
         .then(() => this.$emit("deleteNote", this.note._id))
         .catch(err => alert(err));
     },
     updateNote(note) {
       this.$emit("updateNote", note);
-    },
+    }
   },
   filters: {
     moment(date) {
@@ -73,3 +90,11 @@ export default {
   }
 };
 </script>
+<style scoped>
+#image {
+  height: 250px;
+}
+#image:hover {
+  cursor: pointer;
+}
+</style>
