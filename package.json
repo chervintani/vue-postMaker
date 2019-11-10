@@ -7,7 +7,7 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "api": "nodemon api/server.js",
-    "start": "node index.js"
+    "start": "node server.js"
   },
   "dependencies": {
     "axios": "^0.18.0",
@@ -64,5 +64,8 @@
   "bugs": {
     "url": "https://github.com/chervintani/vue-postMaker/issues"
   },
-  "homepage": "https://github.com/chervintani/vue-postMaker#readme"
+  "homepage": "https://github.com/chervintani/vue-postMaker#readme",
+  "engines": {
+    "node": "10.15"
+}
 }
