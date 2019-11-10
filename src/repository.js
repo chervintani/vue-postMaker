@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:5000';
+const BASE_URL = 'https://chervin-backend.herokuapp.com';
 
 export function getNotes() {
 	return axios.get(`${BASE_URL}/api/note/list`)

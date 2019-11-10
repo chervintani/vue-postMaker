@@ -46,7 +46,6 @@ app.post('/api/note/create', (req, res) => {
   });
 });
 
-
 app.post('/api/note/update/:id', (req, res) => {
   console.log(req.body.data)
   schema.Post.findByIdAndUpdate(req.params.id, req.body.data, { new: true }, (err, note) => {
