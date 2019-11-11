@@ -12,7 +12,7 @@
         <section class="modal-card-body">
           <div class="control">
             <!-- <input v-model="title" class="input" type="text" placeholder="Title"> -->
-            <b-field label="Enter a title" :label-position="labelPosition">
+            <b-field label="Name of the event" :label-position="labelPosition">
               <b-input placeholder="Title" icon-pack="fas" icon="pencil-alt" v-model="title"></b-input>
             </b-field>
           </div>
@@ -22,10 +22,13 @@
               maxlength="200"
               type="textarea"
               v-model="body"
-              placeholder="Say what you want to say..."
+              placeholder="Discuss about the event..."
             ></b-input>
           </b-field>
-          <b-field label="Add a location" :label-position="labelPosition">
+          <b-field label="People invited" :label-position="labelPosition">
+            <b-input placeholder="Add people" icon-pack="fas" icon="user" v-model="people"></b-input>
+          </b-field>
+          <b-field label="Set location" :label-position="labelPosition">
             <b-input
               placeholder="Add location"
               icon-pack="fas"
@@ -33,16 +36,29 @@
               v-model="location"
             ></b-input>
           </b-field>
+          <b-field label="Set date and time" :label-position="labelPosition">
+            <b-datetimepicker
+              rounded
+              placeholder="Type or select a date..."
+              icon="calendar"
+              v-model="datetime"
+              :timepicker="{ hourFormat: format }"
+            ></b-datetimepicker>
+          </b-field>
+
           <!-- <textarea v-model="body" class="textarea" placeholder="Enter content"></textarea> -->
           <div class="upload-button">
-            <div class="upload-cover">Upload image</div>
+            <div class="upload-cover">
+              <b-icon icon-pack="fas" icon="upload"></b-icon>&nbsp Upload image
+            </div>
             <input type="file" accept="image/*" @change="encodeToBase64" id="file">
           </div>
           <div class="fileUpload btn btn-primary">
             <span>Upload</span>
             <input type="file" accept="image/*" @change="encodeToBase64" id="file" class="upload">
           </div>
-          <span class="file-name" id="filename" v-if="file">{{ file.name }}</span>
+          <br>
+          <span class="file-name" id="filename" v-if="file">{{ file }}</span>
         </section>
 
         <footer class="modal-card-foot">
@@ -60,13 +76,17 @@ export default {
   name: "CreateNoteModal",
   data() {
     return {
+      formatAmPm: true,
       file: null,
       labelPosition: "on-border",
       title: "",
       body: "",
+      people: "",
       location: "",
+      datetime: null,
+      images: null,
       isActive: false,
-      images: null
+      uploaded: false
     };
   },
   methods: {
@@ -88,44 +108,76 @@ export default {
         // console.log("RESULT!", img.src);
         var a = document.getElementById("file").value;
         var b = a.split("\\");
-        // console.log(b[2]);
         this.images = { filename: b[2], image: img.src };
       };
       reader.readAsDataURL(file);
+
+      var temp = document.getElementById("file").value.split("\\");
+      this.file = temp[2];
+      this.uploaded = true;
     },
     create() {
-      let data = {
-        title: this.title,
-        body: this.body,
-        location: this.location,
-        filename: this.images.filename,
-        image: this.images.image
-      };
-      if (data.title == "" || data.body == "" || data.location == "") {
-        this.$buefy.toast.open({
+      if (!this.uploaded) {
+        return this.$buefy.toast.open({
           message: "Please fill all the fields!",
           type: "is-danger"
         });
       } else {
-        createNote(data)
-          .then(data => {
-            const loadingComponent = this.$buefy.loading.open({
-              container: null
-            });
-            setTimeout(() => loadingComponent.close(), 1 * 1000);
-            this.$emit("createNote", data.note);
-            this.title = this.body = "";
-            this.toggle();
-            this.$buefy.toast.open({
-              message: "Posted successfully!",
-              type: "is-success"
-            });
-          })
-          .catch(err => alert(err.message));
+        let data = {
+          title: this.title,
+          body: this.body,
+          people: this.people,
+          location: this.location,
+          datetime: this.datetime,
+          filename: this.images.filename,
+          image: this.images.image
+        };
+        if (
+          data.title == "" ||
+          data.body == "" ||
+          data.people == "" ||
+          data.location == "" ||
+          data.datetime == ""
+        ) {
+          this.$buefy.toast.open({
+            message: "Please fill all the fields!",
+            type: "is-danger"
+          });
+        } else {
+          var tostring = data.datetime.toString();
+          var subs = tostring.substring(0,24)
+          data.datetime = subs;
+          createNote(data)
+            .then(data => {
+              const loadingComponent = this.$buefy.loading.open({
+                container: null
+              });
+              setTimeout(() => loadingComponent.close(), 1 * 1000);
+              this.title = "";
+              this.body = "";
+              this.people = "";
+              this.location = "";
+              this.datetime = null;
+              this.file = "";
+
+              this.$emit("createNote", data.note);
+              this.toggle();
+              this.$buefy.toast.open({
+                message: "Posted successfully!",
+                type: "is-success"
+              });
+            })
+            .catch(err => alert(err.message));
+        }
       }
     },
     toggle() {
       this.isActive = !this.isActive;
+    }
+  },
+  computed: {
+    format() {
+      return this.formatAmPm ? "12" : "24";
     }
   }
 };
@@ -180,11 +232,11 @@ label {
   height: 100%;
   opacity: 0; /* left this here so you could see. Make it 0 */
   cursor: pointer;
-  border: 1px solid red;
+  border: 1px solid #8c67ef;
 }
 
 .upload-button:hover .upload-cover {
-  background-color: #f06;
+  background-color: #8c67ef;
 }
 
 body {

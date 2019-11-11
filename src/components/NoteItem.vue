@@ -5,12 +5,20 @@
       <button @click="deleteNote" class="delete" aria-label="delete"></button>
     </div>
     <div class="message-body">
-      <b-field label="About">
+      <b-field label="About" >
         <p>{{note.body}}</p>
+      </b-field>
+      <br>
+      <b-field label="People">
+        <p>{{note.people}}</p>
       </b-field>
       <br>
       <b-field label="Location">
         <p>{{note.location}}</p>
+      </b-field>
+      <br>
+      <b-field label="Date and time">
+        <p>{{note.datetime}}</p>
       </b-field>
       <br>
       <img v-bind:src="note.image" id="image" @click="imageModal()">
@@ -52,7 +60,9 @@ export default {
       e.preventDefault();
       const title = this.note.title;
       const body = this.note.body;
+      const people = this.note.people;
       const location = this.note.location;
+      const datetime = this.note.datetime;
       const filename = this.note.filename;
       const image = this.note.image;
       this.$buefy.snackbar.open({
@@ -65,7 +75,15 @@ export default {
         actionText: "Undo",
         queue: false,
         onAction: () => {
-          let data = { title: title, body: body, location: location, filename: filename, image: image };
+          let data = {
+            title: title,
+            body: body,
+            people: people,
+            location: location,
+            datetime: datetime,
+            filename: filename,
+            image: image
+          };
           createNote(data).then(data => {
             this.$emit("createNote", data.note);
             this.$buefy.toast.open({

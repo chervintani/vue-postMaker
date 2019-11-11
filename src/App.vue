@@ -3,7 +3,7 @@
     <b-navbar class="is-link is-fixed-top">
       <template slot="brand">
         <b-navbar-item>
-          <p class="title is-3 has-text-light">EventList</p>
+          <p class="title is-3 has-text-light">EventHub</p>
         </b-navbar-item>
       </template>
 
