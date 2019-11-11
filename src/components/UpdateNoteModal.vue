@@ -79,6 +79,9 @@ export default {
   props: ["note"],
   methods: {
     update() {
+      const loadingComponent = this.$buefy.loading.open({
+        container: null
+      });
       let data = {
         title: this.title,
         body: this.body,
@@ -86,12 +89,13 @@ export default {
         location: this.location,
         datetime: this.datetime
       };
-      this.$buefy.toast.open({
-        message: this.note.title + " is updated successfully!",
-        type: "is-success"
-      });
       updateNote(data, this.note._id)
         .then(data => {
+          loadingComponent.close();
+          this.$buefy.toast.open({
+            message: this.note.title + " is updated successfully!",
+            type: "is-success"
+          });
           this.$emit("updateNote", data.note);
           this.toggle();
         })

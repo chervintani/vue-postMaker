@@ -144,15 +144,16 @@ export default {
             type: "is-danger"
           });
         } else {
+          const loadingComponent = this.$buefy.loading.open({
+                container: null
+              });
           var tostring = data.datetime.toString();
           var subs = tostring.substring(0,24)
           data.datetime = subs;
+          
           createNote(data)
             .then(data => {
-              const loadingComponent = this.$buefy.loading.open({
-                container: null
-              });
-              setTimeout(() => loadingComponent.close(), 1 * 1000);
+              loadingComponent.close();
               this.title = "";
               this.body = "";
               this.people = "";

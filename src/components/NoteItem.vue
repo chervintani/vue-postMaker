@@ -6,24 +6,23 @@
     </div>
     <div class="message-body">
       <img v-bind:src="note.image" id="image" @click="imageModal()">
-      <b-field label="About" >
+      <br>
+      <b-field label="About">
         <p class="ellipsis">{{note.body}}</p>
       </b-field>
-      <br>
+
       <b-field label="People">
         <p class="ellipsis">{{note.people}}</p>
       </b-field>
-      <br>
+
       <b-field label="Location">
         <p class="ellipsis">{{note.location}}</p>
       </b-field>
-      <br>
+
       <b-field label="Date and time">
         <p class="ellipsis">{{note.datetime}}</p>
       </b-field>
-      <br>
-      
-      <br>
+
       <span class="has-text-grey">Created at: {{ note.createdat | moment }}</span>
       <br>
       <span class="has-text-grey">Last updated: {{ note.updatedat | moment }}</span>
@@ -59,6 +58,9 @@ export default {
     },
     deleteNote(e) {
       e.preventDefault();
+      const loadingComponent = this.$buefy.loading.open({
+        container: null
+      });
       const title = this.note.title;
       const body = this.note.body;
       const people = this.note.people;
@@ -95,7 +97,10 @@ export default {
         }
       });
       deleteNote(this.note._id)
-        .then(() => this.$emit("deleteNote", this.note._id))
+        .then(() => {
+          loadingComponent.close();
+          this.$emit("deleteNote", this.note._id);
+        })
         .catch(err => alert(err));
     },
     updateNote(note) {
@@ -110,7 +115,6 @@ export default {
 };
 </script>
 <style scoped>
-
 #image {
   height: 250px;
 }
@@ -119,7 +123,7 @@ export default {
 }
 
 .message-body {
-  background-color: rgb(205, 217, 252)
+  background-color: rgb(205, 217, 252);
 }
 img {
   border-radius: 8px;
@@ -127,18 +131,17 @@ img {
   margin-left: auto;
   margin-right: auto;
 }
-article{
+article {
   text-align: center;
   margin-left: 15%;
   margin-right: 15%;
-  font-family: Comfortaa
+  font-family: Comfortaa;
 }
 
 .ellipsis {
   word-wrap: break-word;
   margin-left: 10%;
   margin-right: 10%;
-  overflow: ellipsis
+  overflow: ellipsis;
 }
-
 </style>

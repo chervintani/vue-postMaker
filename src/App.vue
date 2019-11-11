@@ -68,15 +68,20 @@ export default {
     }
   },
   mounted() {
+    const loadingComponent = this.$buefy.loading.open({
+      container: null
+    });
     getNotes()
-      .then(data => (this.notes = data.notes))
+      .then(data => {
+        loadingComponent.close();
+        this.notes = data.notes;
+      })
       .catch(err => alert(err));
   }
 };
 </script>
 <style scoped>
-  .title {
-    padding-top:10%;
-  };
-
+.title {
+  padding-top: 10%;
+}
 </style>
