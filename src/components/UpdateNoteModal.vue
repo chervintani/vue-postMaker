@@ -19,7 +19,7 @@
           <b-input placeholder="Location" v-model="location"></b-input>
           <br>
           <b-input placeholder="Date and Time" v-model="datetime"></b-input>
-        </section> -->
+        </section>-->
         <section class="modal-card-body">
           <div class="control">
             <!-- <input v-model="title" class="input" type="text" placeholder="Title"> -->
@@ -67,7 +67,7 @@ export default {
   name: "UpdateNoteModal",
   data() {
     return {
-      labelPosition: 'on-border',
+      labelPosition: "on-border",
       title: this.note.title,
       body: this.note.body,
       people: this.note.people,
@@ -79,9 +79,15 @@ export default {
   props: ["note"],
   methods: {
     update() {
-      let data = { title: this.title, body: this.body,people:this.people, location: this.location, datetime: this.datetime };
+      let data = {
+        title: this.title,
+        body: this.body,
+        people: this.people,
+        location: this.location,
+        datetime: this.datetime
+      };
       this.$buefy.toast.open({
-        message: this.note.title+" is updated successfully!",
+        message: this.note.title + " is updated successfully!",
         type: "is-success"
       });
       updateNote(data, this.note._id)

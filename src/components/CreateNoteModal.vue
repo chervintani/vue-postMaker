@@ -6,14 +6,14 @@
       <div class="modal-background"></div>
       <div class="modal-card">
         <header class="modal-card-head">
-          <p class="modal-card-title">Add an event</p>
+          <p class="modal-card-title" >Add an event</p>
           <button class="delete" aria-label="close" @click="toggle"></button>
         </header>
         <section class="modal-card-body">
           <div class="control">
             <!-- <input v-model="title" class="input" type="text" placeholder="Title"> -->
             <b-field label="Name of the event" :label-position="labelPosition">
-              <b-input placeholder="Title" icon-pack="fas" icon="pencil-alt" v-model="title"></b-input>
+              <b-input placeholder="Title" icon-pack="fas" icon="pencil-alt" v-model="title" maxlength="50"></b-input>
             </b-field>
           </div>
           <br>

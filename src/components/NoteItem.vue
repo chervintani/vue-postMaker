@@ -5,27 +5,28 @@
       <button @click="deleteNote" class="delete" aria-label="delete"></button>
     </div>
     <div class="message-body">
+      <img v-bind:src="note.image" id="image" @click="imageModal()">
       <b-field label="About" >
-        <p>{{note.body}}</p>
+        <p class="ellipsis">{{note.body}}</p>
       </b-field>
       <br>
       <b-field label="People">
-        <p>{{note.people}}</p>
+        <p class="ellipsis">{{note.people}}</p>
       </b-field>
       <br>
       <b-field label="Location">
-        <p>{{note.location}}</p>
+        <p class="ellipsis">{{note.location}}</p>
       </b-field>
       <br>
       <b-field label="Date and time">
-        <p>{{note.datetime}}</p>
+        <p class="ellipsis">{{note.datetime}}</p>
       </b-field>
       <br>
-      <img v-bind:src="note.image" id="image" @click="imageModal()">
+      
       <br>
-      <span class="has-text-grey-light">Created at: {{ note.createdat | moment }}</span>
+      <span class="has-text-grey">Created at: {{ note.createdat | moment }}</span>
       <br>
-      <span class="has-text-grey-light">Last updated: {{ note.updatedat | moment }}</span>
+      <span class="has-text-grey">Last updated: {{ note.updatedat | moment }}</span>
       <br>
       <UpdateNoteModal :note="note" @updateNote="updateNote" :key="note._id"/>
     </div>
@@ -52,8 +53,8 @@ export default {
     imageModal() {
       this.$buefy.modal.open(
         `<p class="image is-4by3">
-                        <img src="https://buefy.org/static/img/placeholder-1280x960.png">
-                    </p>`
+          <img src="${this.note.image}">
+        </p>`
       );
     },
     deleteNote(e) {
@@ -109,10 +110,35 @@ export default {
 };
 </script>
 <style scoped>
+
 #image {
   height: 250px;
 }
 #image:hover {
   cursor: pointer;
 }
+
+.message-body {
+  background-color: rgb(205, 217, 252)
+}
+img {
+  border-radius: 8px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+article{
+  text-align: center;
+  margin-left: 15%;
+  margin-right: 15%;
+  font-family: Comfortaa
+}
+
+.ellipsis {
+  word-wrap: break-word;
+  margin-left: 10%;
+  margin-right: 10%;
+  overflow: ellipsis
+}
+
 </style>
