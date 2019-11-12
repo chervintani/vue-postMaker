@@ -5,11 +5,15 @@
         <b-navbar-item>
           <p class="title is-3 has-text-light">EventHub</p>
         </b-navbar-item>
+        
       </template>
 
       <template slot="end">
         <b-navbar-item tag="div">
           <div class="buttons">
+            <router-link to="/login">
+          <button class="button is-danger is-outlined is-fullwidth is-rounded">Logout</button>
+        </router-link>
             <CreateNoteModal @createNote="createNote"/>
           </div>
         </b-navbar-item>
