@@ -67,5 +67,5 @@
   "homepage": "https://github.com/chervintani/vue-postMaker#readme",
   "engines": {
     "node": "10.15"
-}
+  }
 }

@@ -7,29 +7,10 @@
         </b-navbar-item>
       </template>
 
-      <template slot="end">
-        <b-navbar-item tag="div">
-          <div class="buttons">
-            <CreateNoteModal @createNote="createNote"/>
-          </div>
-        </b-navbar-item>
-      </template>
     </b-navbar>
+    <!-- <Login/> -->
+    <router-view to="/login"> </router-view>
     <br>
-    <div class="container">
-      <div v-if="notes">
-        <br>
-        <div>
-          <noteItem
-            v-for="(note, index) in notes"
-            :note="note"
-            :key="index"
-            @deleteNote="deleteNote"
-            @updateNote="updateNote"
-          />
-        </div>
-      </div>
-    </div>
     <footer class="footer">
       <div class="content has-text-centered">
         <p>
@@ -42,42 +23,10 @@
 </template>
 
 <script>
-import NoteItem from "./components/NoteItem.vue";
-import CreateNoteModal from "./components/CreateNoteModal.vue";
-import { getNotes } from "./repository";
 
 export default {
   name: "app",
-  components: { NoteItem, CreateNoteModal },
-  data() {
-    return {
-      notes: []
-    };
-  },
-  methods: {
-    deleteNote(id) {
-      let notes = this.notes.filter(note => note._id != id);
-      this.notes = notes;
-    },
-    updateNote(note) {
-      this.deleteNote(note._id);
-      this.createNote(note);
-    },
-    createNote(note) {
-      this.notes = [note, ...this.notes];
-    }
-  },
-  mounted() {
-    const loadingComponent = this.$buefy.loading.open({
-      container: null
-    });
-    getNotes()
-      .then(data => {
-        loadingComponent.close();
-        this.notes = data.notes;
-      })
-      .catch(err => alert(err));
-  }
+
 };
 </script>
 <style scoped>

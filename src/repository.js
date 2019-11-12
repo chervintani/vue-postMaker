@@ -12,6 +12,29 @@ export function deleteNote(id) {
 		.then(response => response.data)
 		.catch(err => Promise.reject(err.message));
 }
+
+export function register(data) {
+	return axios.post(`${BASE_URL}/api/account/create`, {
+		username: data.username,
+		password: data.password,
+	})
+		.then(response => {
+			return response.data
+		})
+		.catch(err => Promise.reject(err.message));
+}
+
+export function login(data) {
+	return axios.post(`${BASE_URL}/api/account/login`, {
+		username: data.username,
+		password: data.password,
+	})
+		.then(response => {
+			return response.data
+		})
+		.catch(err => Promise.reject(err.message));
+}
+
 export function createNote(data) {
 	return axios.post(`${BASE_URL}/api/note/create`, {
 		title: data.title,
@@ -20,7 +43,8 @@ export function createNote(data) {
 		location: data.location,
 		datetime: data.datetime,
 		filename: data.filename,
-		image: data.image })
+		image: data.image
+	})
 		.then(response => {
 			return response.data
 		})
