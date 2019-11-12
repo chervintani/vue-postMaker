@@ -5,16 +5,17 @@
         <b-navbar-item>
           <p class="title is-3 has-text-light">EventHub</p>
         </b-navbar-item>
-        
       </template>
-
       <template slot="end">
         <b-navbar-item tag="div">
           <div class="buttons">
-            <router-link to="/login">
-          <button class="button is-danger is-outlined is-fullwidth is-rounded">Logout</button>
-        </router-link>
             <CreateNoteModal @createNote="createNote"/>
+            <router-link to="/login"></router-link>
+            <b-navbar-dropdown label="Account">
+              <b-navbar-item href="/login">
+                <button class="button is-danger is-outlined is-fullwidth" @click="loggedOut">Logout</button>
+              </b-navbar-item>
+            </b-navbar-dropdown>
           </div>
         </b-navbar-item>
       </template>
@@ -51,6 +52,9 @@ export default {
     };
   },
   methods: {
+    loggedOut() {
+      console.log("LOGGED OUT");
+    },
     deleteNote(id) {
       let notes = this.notes.filter(note => note._id != id);
       this.notes = notes;

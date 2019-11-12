@@ -26,6 +26,7 @@
   </div>
 </template>
 <script>
+
 import { login } from "../repository";
 export default {
   name: "login",
@@ -48,7 +49,7 @@ export default {
     doLogin() {
       if (this.username == "" || this.password == "") {
         this.$buefy.toast.open({
-          message: "Login failed",
+          message: "Username and password is empty!",
           type: "is-danger"
         });
       } else {
@@ -73,6 +74,8 @@ export default {
               message: "Invalid username or password",
               type: "is-danger"
             });
+            this.username = ""
+            this.password = ""
           }
         });
       }

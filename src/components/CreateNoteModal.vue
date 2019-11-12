@@ -1,5 +1,5 @@
 <template>
-  <div style="margin-top:8%">
+  <div>
     <button @click="toggle" class="button is-light is-outlined is-rounded">Create Event</button>
     <br>
     <div class="modal" :class="{ 'is-active': isActive }">
