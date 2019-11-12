@@ -49,13 +49,9 @@
           <!-- <textarea v-model="body" class="textarea" placeholder="Enter content"></textarea> -->
           <div class="upload-button">
             <div class="upload-cover">
-              <b-icon icon-pack="fas" icon="upload"></b-icon>&nbsp Upload image
+              <b-icon icon-pack="fas" icon="upload"></b-icon>&nbsp; Upload image
             </div>
             <input type="file" accept="image/*" @change="encodeToBase64" id="file">
-          </div>
-          <div class="fileUpload btn btn-primary">
-            <span>Upload</span>
-            <input type="file" accept="image/*" @change="encodeToBase64" id="file" class="upload">
           </div>
           <br>
           <span class="file-name" id="filename" v-if="file">{{ file }}</span>

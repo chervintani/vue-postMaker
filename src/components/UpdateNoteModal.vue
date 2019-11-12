@@ -7,19 +7,6 @@
           <p class="modal-card-title">Update post</p>
           <button class="delete" aria-label="close" @click="toggle"></button>
         </header>
-        <!-- <section class="modal-card-body">
-          <div class="control">
-            <input v-model="title" class="input" type="text" placeholder="Title">
-          </div>
-          <br>
-          <textarea v-model="body" class="textarea" placeholder="Enter content"></textarea>
-          <br>
-          <b-input placeholder="People" v-model="people"></b-input>
-          <br>
-          <b-input placeholder="Location" v-model="location"></b-input>
-          <br>
-          <b-input placeholder="Date and Time" v-model="datetime"></b-input>
-        </section>-->
         <section class="modal-card-body">
           <div class="control">
             <!-- <input v-model="title" class="input" type="text" placeholder="Title"> -->
@@ -27,7 +14,7 @@
               <b-input placeholder="Title" icon-pack="fas" icon="pencil-alt" v-model="title"></b-input>
             </b-field>
           </div>
-          <br>
+          <br />
           <b-field label="Put a content..." :label-position="labelPosition" rounded>
             <b-input
               maxlength="200"
@@ -47,7 +34,17 @@
               v-model="location"
             ></b-input>
           </b-field>
-          <b-input placeholder="Date and Time" v-model="datetime"></b-input>
+          <b-field label="Set date and time" :label-position="labelPosition">
+            <b-input placeholder="Date and Time" icon-pack="fas" icon="calendar" v-model="datetime"></b-input>
+          </b-field>
+          <div class="upload-button">
+            <div class="upload-cover">
+              <b-icon icon-pack="fas" icon="upload"></b-icon>&nbsp; Upload image
+            </div>
+            <input type="file" accept="image/*" @change="encodeToBase64" id="file" />
+          </div>
+          <br />
+          <img v-bind:src="note.image" id="image" />
         </section>
         <footer class="modal-card-foot">
           <button
@@ -67,17 +64,45 @@ export default {
   name: "UpdateNoteModal",
   data() {
     return {
+      file: null,
       labelPosition: "on-border",
       title: this.note.title,
       body: this.note.body,
       people: this.note.people,
       location: this.note.location,
       datetime: this.note.datetime,
-      isActive: false
+      isActive: false,
+      images: null
     };
   },
   props: ["note"],
   methods: {
+    encodeToBase64(event) {
+      event.preventDefault();
+      const file = event.target.files[0];
+      const canvas = document.createElement("canvas");
+      canvas.getContext("2d");
+      const reader = new FileReader();
+      reader.onload = event => {
+        const img = new Image();
+        img.onload = () => {
+          this.image = canvas
+            .toDataURL("image/png")
+            .replace(/^data:image\/(png|jpg);base64,/, "");
+          // console.log("RESULT/png", this.image);
+        };
+        img.src = event.target.result;
+        // console.log("RESULT!", img.src);
+        var a = document.getElementById("file").value;
+        var b = a.split("\\");
+        this.images = { filename: b[2], image: img.src };
+      };
+      reader.readAsDataURL(file);
+
+      var temp = document.getElementById("file").value.split("\\");
+      this.file = temp[2];
+
+    },
     update() {
       const loadingComponent = this.$buefy.loading.open({
         container: null
@@ -87,7 +112,9 @@ export default {
         body: this.body,
         people: this.people,
         location: this.location,
-        datetime: this.datetime
+        datetime: this.datetime,
+        filename: this.images.filename,
+        image: this.images.image
       };
       updateNote(data, this.note._id)
         .then(data => {
@@ -134,6 +161,7 @@ label {
   /* just positioning */
   float: left;
   clear: left;
+  color: white;
 }
 
 .upload-cover {
@@ -162,6 +190,14 @@ label {
 
 .upload-button:hover .upload-cover {
   background-color: #8c67ef;
+}
+
+#image {
+  width: 40%;
+}
+
+#image:hover {
+  box-shadow: 2px 2px 10px grey;
 }
 
 body {
