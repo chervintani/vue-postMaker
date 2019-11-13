@@ -2,6 +2,7 @@
 import Login from "@/components/Login.vue";
 import Home from "@/components/Home.vue";
 import Register from "@/components/Register.vue";
+import NotFound from "@/components/404.vue";
 import Vue from "vue";
 import Router from "vue-router";
 import store from "./store"
@@ -21,7 +22,7 @@ var router = new Router({
         name: "home",
         component: Home,
         beforeEnter: (to, from, next) => {
-            if(store.state.authenticated == false) {
+            if (store.state.authenticated == false) {
                 next("/login");
             } else {
                 next();
@@ -33,7 +34,7 @@ var router = new Router({
         name: "login",
         component: Login,
         beforeEnter: (to, from, next) => {
-            if(store.state.authenticated == true) {
+            if (store.state.authenticated == true) {
                 next("/home");
             } else {
                 next();
@@ -50,7 +51,11 @@ var router = new Router({
         path: "/register",
         name: "register",
         component: Register,
-
+    },
+    {
+        path: "*",
+        name: "404",
+        component: NotFound,
     }
     ]
 });
