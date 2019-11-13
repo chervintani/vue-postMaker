@@ -3,11 +3,14 @@ import App from './App.vue'
 import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
 import router from "./router";
+import store from "./store"
 Vue.config.productionTip = false
 Vue.use(Buefy, {
   defaultIconPack: 'fas'
 });
+
 new Vue({
   router,
-  render: h => h(App)
+  render: h => h(App),
+  store: store
 }).$mount('#app')

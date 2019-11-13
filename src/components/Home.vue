@@ -11,11 +11,12 @@
           <div class="buttons">
             <CreateNoteModal @createNote="createNote"/>
             <router-link to="/login"></router-link>
-            <b-navbar-dropdown label="Account">
+            <b-navbar-dropdown>
               <b-navbar-item href="/login">
                 <button class="button is-danger is-outlined is-fullwidth" @click="loggedOut">Logout</button>
               </b-navbar-item>
             </b-navbar-dropdown>
+            <span id="username" v-html="user">test</span>
           </div>
         </b-navbar-item>
       </template>
@@ -48,12 +49,13 @@ export default {
   components: { NoteItem, CreateNoteModal },
   data() {
     return {
-      notes: []
+      notes: [],
+      user: sessionStorage.getItem("username")
     };
   },
   methods: {
     loggedOut() {
-      console.log("LOGGED OUT");
+      sessionStorage.removeItem("authenticated");
     },
     deleteNote(id) {
       let notes = this.notes.filter(note => note._id != id);

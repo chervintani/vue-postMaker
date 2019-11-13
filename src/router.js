@@ -4,6 +4,7 @@ import Home from "@/components/Home.vue";
 import Register from "@/components/Register.vue";
 import Vue from "vue";
 import Router from "vue-router";
+import store from "./store"
 Vue.use(Router);
 
 var router = new Router({
@@ -18,20 +19,55 @@ var router = new Router({
     {
         path: "/home",
         name: "home",
-        component: Home
+        component: Home,
+        beforeEnter: (to, from, next) => {
+            if(store.state.authenticated == false) {
+                next("/login");
+            } else {
+                next();
+            }
+        },
     },
     {
         path: "/login",
         name: "login",
-        component: Login
+        component: Login,
+        beforeEnter: (to, from, next) => {
+            if(store.state.authenticated == true) {
+                next("/home");
+            } else {
+                next();
+            }
+
+            // if(store.state.authenticated == false) {
+            //     next("/login");
+            // } else {
+            //     next();
+            // }
+        },
     },
     {
         path: "/register",
         name: "register",
-        component: Register
+        component: Register,
+
     }
     ]
 });
 
+// router.beforeEach((to, from, next) => {
+//     if (!to.meta.tokenRequired) {
+//         // console.log(localStorage.getItem('default'))
+//         next("/login");
+//     } else {
+//         next();
+//     }
+//     let token = localStorage.getItem('default');
+//     if (token === "success") {
+//         next("/login");
+//     } else {
+//         next();
+//     }
 
+// });
 export default router;

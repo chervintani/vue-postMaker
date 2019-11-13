@@ -26,7 +26,6 @@
   </div>
 </template>
 <script>
-
 import { login } from "../repository";
 export default {
   name: "login",
@@ -62,20 +61,22 @@ export default {
         });
         login(data).then(data => {
           loadingComponent.close();
-          console.log(data);
           if (data.login === "success") {
+            sessionStorage.setItem('authenticated', true);
+            sessionStorage.setItem('username', this.username);
+            this.$store.commit("setAuthentication", true);
+            this.$router.replace({ name: "home" });
             this.$buefy.toast.open({
               message: `Welcome ${this.username}!`,
               type: "is-success"
             });
-            this.$router.push("/home");
           } else {
             this.$buefy.toast.open({
               message: "Invalid username or password",
               type: "is-danger"
             });
-            this.username = ""
-            this.password = ""
+            this.username = "";
+            this.password = "";
           }
         });
       }
