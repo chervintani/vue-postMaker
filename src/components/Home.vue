@@ -37,7 +37,7 @@
             class="title is-3 has-text-dark"
             style="text-align:center"
             v-if="notFound"
-          >No results found</p>
+          >No results found for '{{this.searching}}'</p>
           <noteItem
             v-for="(note, index) in notes"
             :note="note"
