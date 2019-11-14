@@ -40,17 +40,20 @@ var router = new Router({
                 next();
             }
 
-            // if(store.state.authenticated == false) {
-            //     next("/login");
-            // } else {
-            //     next();
-            // }
         },
     },
     {
         path: "/register",
         name: "register",
         component: Register,
+        beforeEnter: (to, from, next) => {
+            if (store.state.authenticated == true) {
+                next("/home");
+            } else {
+                next();
+            }
+
+        },
     },
     {
         path: "*",
