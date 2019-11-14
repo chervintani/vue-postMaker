@@ -57,7 +57,7 @@ var router = new Router({
     },
     {
         path: "*",
-        name: "404",
+        name: "notFound",
         component: NotFound,
     }
     ]

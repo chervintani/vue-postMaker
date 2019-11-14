@@ -15,7 +15,7 @@
         </b-field>
         <b-navbar-item tag="div">
           <div class="buttons">
-            <CreateNoteModal @createNote="createNote" />
+            <CreateNoteModal @createNote="createNote"/>
             <router-link to="/login"></router-link>
             <b-navbar-dropdown>
               <b-navbar-item href="/login">
@@ -27,11 +27,16 @@
         </b-navbar-item>
       </template>
     </b-navbar>
-    <br />
+    <br>
     <div class="container">
       <div v-if="notes">
-        <br />
+        <br>
         <div>
+          <p
+            class="title is-3 has-text-dark"
+            style="text-align:center"
+            v-if="notFound"
+          >No results found</p>
           <noteItem
             v-for="(note, index) in notes"
             :note="note"
@@ -58,6 +63,7 @@ export default {
       notes: [],
       noteSearch: [],
       searching: "",
+      notFound: false,
       user: sessionStorage.getItem("username")
     };
   },
@@ -84,17 +90,25 @@ export default {
       });
       for (var i = 0; i < this.noteSearch.length; ++i) {
         if (this.noteSearch[i].title == keyword) {
+          this.notFound = false;
           this.notes = [];
           this.notes.push(a[0]);
           break;
-        }else {
-          console.log("Search not found")
+        } else {
+          if (
+            this.noteSearch[i] == this.noteSearch[this.noteSearch.length - 1]
+          ) {
+            console.log("Search not found");
+            this.notFound = true;
+            this.notes = [];
+          }
         }
       }
     },
     home(e) {
       e.preventDefault();
       this.notes = this.noteSearch;
+      this.notFound = false;
     }
   },
   mounted() {
