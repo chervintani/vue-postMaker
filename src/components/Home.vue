@@ -7,12 +7,13 @@
         </b-navbar-item>
       </template>
       <template slot="end">
-        <b-field style="margin-top:3%">
+        <b-field style="margin-top:3%;margin-right: 2%">
           <b-input placeholder="Search..." type="search" v-model="searching"></b-input>
           <p class="control">
             <b-button class="button is-primary" @click="searched">Search</b-button>
           </p>
         </b-field>
+  
         <b-navbar-item tag="div">
           <div class="buttons">
             <CreateNoteModal @createNote="createNote"/>
