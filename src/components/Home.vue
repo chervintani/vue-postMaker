@@ -88,19 +88,21 @@ export default {
       let a = this.noteSearch.filter(function(post) {
         return post.title == keyword;
       });
-      for (var i = 0; i < this.noteSearch.length; ++i) {
-        if (this.noteSearch[i].title == keyword) {
-          this.notFound = false;
-          this.notes = [];
-          this.notes.push(a[0]);
-          break;
-        } else {
-          if (
-            this.noteSearch[i] == this.noteSearch[this.noteSearch.length - 1]
-          ) {
-            console.log("Search not found");
-            this.notFound = true;
+      if (this.searching != "") {
+        for (var i = 0; i < this.noteSearch.length; ++i) {
+          if (this.noteSearch[i].title == keyword) {
+            this.notFound = false;
             this.notes = [];
+            this.notes.push(a[0]);
+            break;
+          } else {
+            if (
+              this.noteSearch[i] == this.noteSearch[this.noteSearch.length - 1]
+            ) {
+              console.log("Search not found");
+              this.notFound = true;
+              this.notes = [];
+            }
           }
         }
       }
