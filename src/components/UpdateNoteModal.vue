@@ -44,6 +44,7 @@
             <input type="file" accept="image/*" @change="encodeToBase64" id="file" />
           </div>
           <br />
+          <input v-model="filename"/>
           <img v-bind:src="note.image" id="image" />
         </section>
         <footer class="modal-card-foot">
@@ -65,13 +66,14 @@ export default {
   name: "UpdateNoteModal",
   data() {
     return {
-      file: null,
+      // file: null,
       labelPosition: "on-border",
       title: this.note.title,
       body: this.note.body,
       people: this.note.people,
       location: this.note.location,
       datetime: this.note.datetime,
+      filename: this.note.filename,
       isActive: false,
       images: null
     };
@@ -97,9 +99,9 @@ export default {
         var a = document.getElementById("file").value;
         var b = a.split("\\");
         this.images = { filename: b[2], image: img.src };
+
       };
       reader.readAsDataURL(file);
-
       var temp = document.getElementById("file").value.split("\\");
       this.file = temp[2];
 

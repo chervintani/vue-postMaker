@@ -3,6 +3,7 @@ import Login from "@/components/Login.vue";
 import Home from "@/components/Home.vue";
 import Register from "@/components/Register.vue";
 import NotFound from "@/components/404.vue";
+import Profile from "@/components/UpdateProfModal.vue"
 import Vue from "vue";
 import Router from "vue-router";
 import store from "./store"
@@ -54,6 +55,11 @@ var router = new Router({
             }
 
         },
+    },
+    {
+        path: "/profile",
+        name: "profile",
+        component: Profile,
     },
     {
         path: "*",

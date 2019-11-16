@@ -10,20 +10,27 @@
         <b-field style="margin-top:3%;margin-right: 2%">
           <b-input placeholder="Search..." type="search" v-model="searching"></b-input>
           <p class="control">
-            <b-button class="button is-primary" @click="searched">Search</b-button>
+            <b-button class="button title is-6 is-outlined" @click="searched" id="search">Search</b-button>
           </p>
         </b-field>
-  
+
         <b-navbar-item tag="div">
           <div class="buttons">
             <CreateNoteModal @createNote="createNote"/>
-            <router-link to="/login"></router-link>
-            <b-navbar-dropdown>
-              <b-navbar-item href="/login">
-                <button class="button is-danger is-outlined is-fullwidth" @click="loggedOut">Logout</button>
-              </b-navbar-item>
-            </b-navbar-dropdown>
-            <span id="username" v-html="user">test</span>
+            <b-dropdown aria-role="list">
+            <button class="button is-primary" slot="trigger">
+                <span id="username" v-html="user"></span>
+                <b-icon icon-pack="fas" icon="chevron-down" size="is-small"></b-icon>
+            </button>
+
+            <b-dropdown-item aria-role="listitem" href="/profile">
+              <p class="title is-6" >Profile</p>
+            </b-dropdown-item>
+            <b-dropdown-item aria-role="listitem" href="/login">
+              <p class="title is-6" @click="loggedOut">Logout</p>
+            </b-dropdown-item>
+        </b-dropdown>
+            
           </div>
         </b-navbar-item>
       </template>
@@ -139,5 +146,8 @@ export default {
 <style scoped>
 .title {
   padding-top: 10%;
+}
+.is-6:hover{
+  color: #8c67ef
 }
 </style>
