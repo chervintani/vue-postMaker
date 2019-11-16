@@ -120,6 +120,7 @@ export default {
       e.preventDefault();
       this.notes = this.noteSearch;
       this.notFound = false;
+      window.location.reload();
     }
   },
   mounted() {

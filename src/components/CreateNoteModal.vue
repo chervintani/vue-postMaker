@@ -157,13 +157,14 @@ export default {
               this.location = "";
               this.datetime = null;
               this.file = "";
-
               this.$emit("createNote", data.note);
+              location.reload();
               this.toggle();
               this.$buefy.toast.open({
                 message: "Posted successfully!",
                 type: "is-success"
               });
+              
             })
             .catch(err => alert(err.message));
         }
