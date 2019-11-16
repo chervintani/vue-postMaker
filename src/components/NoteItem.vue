@@ -23,9 +23,9 @@
         <p class="ellipsis">{{note.datetime}}</p>
       </b-field>
 
-      <span class="has-text-grey">Created at: {{ note.createdat | moment }}</span>
+      <span class="has-text-grey">Created at: {{ note.date_created }}</span>
       <br>
-      <span class="has-text-grey">Last updated: {{ note.updatedat | moment }}</span>
+      <span class="has-text-grey">Last updated: {{note.date_updated }}</span>
       <br>
       <UpdateNoteModal :note="note" @updateNote="updateNote" :key="note._id"/>
     </div>
@@ -35,7 +35,6 @@
 <script>
 import { deleteNote, createNote } from "../repository";
 import UpdateNoteModal from "./UpdateNoteModal";
-import Moment from "moment";
 
 export default {
   name: "NoteItem",
@@ -68,6 +67,8 @@ export default {
       const datetime = this.note.datetime;
       const filename = this.note.filename;
       const image = this.note.image;
+      const date_created = this.note.date_created;
+      const date_updated = this.note.date_updated;
       this.$buefy.snackbar.open({
         duration: 5000,
         message:
@@ -85,7 +86,9 @@ export default {
             location: location,
             datetime: datetime,
             filename: filename,
-            image: image
+            image: image,
+            date_created: date_created,
+            date_updated: date_updated
           };
           createNote(data).then(data => {
             this.$emit("createNote", data.note);
@@ -107,11 +110,6 @@ export default {
       this.$emit("updateNote", note);
     }
   },
-  filters: {
-    moment(date) {
-      return Moment(date).format("MMMM Do YYYY, h:mm:ss a");
-    }
-  }
 };
 </script>
 <style scoped>

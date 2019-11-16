@@ -43,7 +43,9 @@ export function createNote(data) {
 		location: data.location,
 		datetime: data.datetime,
 		filename: data.filename,
-		image: data.image
+		image: data.image,
+		date_created: data.date_created,
+		date_updated: data.date_updated
 	})
 		.then(response => {
 			return response.data

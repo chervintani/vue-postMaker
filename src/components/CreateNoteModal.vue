@@ -67,7 +67,7 @@
 
 <script>
 import { createNote } from "../repository";
-
+import Moment from "moment";
 export default {
   name: "CreateNoteModal",
   data() {
@@ -126,7 +126,9 @@ export default {
           location: this.location,
           datetime: this.datetime,
           filename: this.images.filename,
-          image: this.images.image
+          image: this.images.image,
+          date_created: Moment().format("MMMM Do YYYY, h:mm:ss a"),
+          date_updated: Moment().format("MMMM Do YYYY, h:mm:ss a")
         };
         if (
           data.title == "" ||
@@ -146,7 +148,6 @@ export default {
           var tostring = data.datetime.toString();
           var subs = tostring.substring(0,24)
           data.datetime = subs;
-          
           createNote(data)
             .then(data => {
               loadingComponent.close();

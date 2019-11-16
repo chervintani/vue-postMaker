@@ -60,6 +60,7 @@
 
 <script>
 import { updateNote } from "../repository";
+import Moment from "moment";
 export default {
   name: "UpdateNoteModal",
   data() {
@@ -107,6 +108,12 @@ export default {
       const loadingComponent = this.$buefy.loading.open({
         container: null
       });
+      if(!this.images){
+        this.images = {
+          filename: this.note.filename,
+          image: this.note.image
+        }
+      }
       let data = {
         title: this.title,
         body: this.body,
@@ -114,8 +121,11 @@ export default {
         location: this.location,
         datetime: this.datetime,
         filename: this.images.filename,
-        image: this.images.image
+        image: this.images.image,
+        date_created: this.note.date_created,
+        date_updated: Moment().format("MMMM Do YYYY, h:mm:ss a")
       };
+      
       updateNote(data, this.note._id)
         .then(data => {
           loadingComponent.close();

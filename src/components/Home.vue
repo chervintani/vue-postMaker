@@ -37,7 +37,7 @@
             class="title is-3 has-text-dark"
             style="text-align:center"
             v-if="notFound"
-          >No results found for '{{this.searching}}'</p>
+          >No results found for <span id="noResult"></span></p>
           <noteItem
             v-for="(note, index) in notes"
             :note="note"
@@ -55,7 +55,7 @@
 import NoteItem from "./NoteItem.vue";
 import CreateNoteModal from "./CreateNoteModal";
 import { getNotes } from "../repository";
-
+import $ from "jquery";
 export default {
   name: "home",
   components: { NoteItem, CreateNoteModal },
@@ -100,7 +100,8 @@ export default {
             if (
               this.noteSearch[i] == this.noteSearch[this.noteSearch.length - 1]
             ) {
-              console.log("Search not found");
+              // console.log("Search not found");
+              $("#noResult").text(this.searching);
               this.notFound = true;
               this.notes = [];
             }
