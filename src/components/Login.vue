@@ -64,6 +64,7 @@ export default {
           if (data.login === "success") {
             sessionStorage.setItem('authenticated', true);
             sessionStorage.setItem('username', this.username);
+            sessionStorage.setItem('password', this.password);
             this.$store.commit("setAuthentication", true);
             this.$router.replace({ name: "home" });
             this.$buefy.toast.open({

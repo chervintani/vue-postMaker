@@ -3,13 +3,14 @@
     <b-navbar class="is-link is-fixed-top">
       <template slot="brand">
         <b-navbar-item>
-          <p class="title is-3 has-text-light">EventHub</p>
+          <router-link to="/home">
+            <p class="title is-3 has-text-light">EventHub</p>
+          </router-link>
         </b-navbar-item>
       </template>
-
     </b-navbar>
     <!-- <Login/> -->
-    <router-view to="/login"> </router-view>
+    <router-view to="/login"></router-view>
     <br>
     <footer class="footer">
       <div class="content has-text-centered">
@@ -23,10 +24,8 @@
 </template>
 
 <script>
-
 export default {
-  name: "app",
-
+  name: "app"
 };
 </script>
 <style scoped>
