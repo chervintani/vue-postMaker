@@ -48,7 +48,7 @@ export default {
     doLogin() {
       if (this.username == "" || this.password == "") {
         this.$buefy.toast.open({
-          message: "Username and password is empty!",
+          message: "Please fill all the fields!",
           type: "is-danger"
         });
       } else {

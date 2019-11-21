@@ -171,8 +171,8 @@ export default {
     },
     imageModal() {
       this.$buefy.modal.open(
-        `<p class="image is-4by3">
-          <img src="https://buefy.org/static/img/placeholder-1280x960.png">
+        `<p class="image is-2by2">
+          <img src="https://yt3.ggpht.com/a/AGF-l7-Sk15OPTK2r-8A9zOzCtbEx1Bsdud5zD8r-A=s900-mo-c-c0xffffffff-rj-k-no">
         </p>`
       );
     }
@@ -197,6 +197,7 @@ export default {
   height: 250px;
   width: 250px;
   object-fit: cover;
+  transition: 0.8s;
 }
 #profile_pic:hover {
   cursor: pointer;
