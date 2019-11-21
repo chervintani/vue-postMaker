@@ -118,6 +118,7 @@
   </div>
 </template>
 <script>
+import { getProfile } from "../repository";
 export default {
   name: "UpdateProfModal",
   data() {
@@ -134,7 +135,8 @@ export default {
         { strong: "Gender: ", value: "Male" },
         { strong: "Civil Status: ", value: "Single" },
         { strong: "Favorite Place: ", value: "Eiffel Tower" }
-      ]
+      ],
+      profile:[]
     };
   },
   methods: {
@@ -174,6 +176,17 @@ export default {
         </p>`
       );
     }
+  },
+  mounted(){
+    // const loadingComponent = this.$buefy.loading.open({
+    //   container: null
+    // });
+    getProfile()
+      .then(data => {
+        // loadingComponent.close();
+        this.profile = data.profile;
+      })
+      .catch(err => alert(err));
   }
 };
 </script>

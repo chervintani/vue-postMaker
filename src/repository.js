@@ -7,6 +7,11 @@ export function getNotes() {
 		.then(response => response.data);
 }
 
+export function getProfile(){
+	return axios.get(`${BASE_URL}/api/profile`)
+		.then(response => response.data);
+}
+
 export function deleteNote(id) {
 	return axios.post(`${BASE_URL}/api/note/delete/${id}`)
 		.then(response => response.data)
