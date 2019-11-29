@@ -4,6 +4,7 @@ import Home from "@/components/Home.vue";
 import Register from "@/components/Register.vue";
 import NotFound from "@/components/404.vue";
 import Profile from "@/components/UpdateProfModal.vue"
+import MyEvents from "@/views/MyEvents.vue"
 import Vue from "vue";
 import Router from "vue-router";
 import store from "./store"
@@ -22,6 +23,18 @@ var router = new Router({
         path: "/home",
         name: "home",
         component: Home,
+        beforeEnter: (to, from, next) => {
+            if (store.state.authenticated == false) {
+                next("/login");
+            } else {
+                next();
+            }
+        },
+    },
+    {
+        path: "/myevents",
+        name: "myevents",
+        component: MyEvents,
         beforeEnter: (to, from, next) => {
             if (store.state.authenticated == false) {
                 next("/login");

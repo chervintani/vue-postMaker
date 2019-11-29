@@ -1,19 +1,26 @@
 <template>
   <div>
     <button @click="toggle" class="button is-light is-outlined is-rounded">Create Event</button>
+    <button @click="myEvents" class="button is-light is-outlined is-rounded">My Events</button>
     <br>
     <div class="modal" :class="{ 'is-active': isActive }">
       <div class="modal-background"></div>
       <div class="modal-card">
         <header class="modal-card-head">
-          <p class="modal-card-title" >Add an event</p>
+          <p class="modal-card-title">Add an event</p>
           <button class="delete" aria-label="close" @click="toggle"></button>
         </header>
         <section class="modal-card-body">
           <div class="control">
             <!-- <input v-model="title" class="input" type="text" placeholder="Title"> -->
             <b-field label="Name of the event" :label-position="labelPosition">
-              <b-input placeholder="Title" icon-pack="fas" icon="pencil-alt" v-model="title" maxlength="50"></b-input>
+              <b-input
+                placeholder="Title"
+                icon-pack="fas"
+                icon="pencil-alt"
+                v-model="title"
+                maxlength="50"
+              ></b-input>
             </b-field>
           </div>
           <br>
@@ -86,6 +93,9 @@ export default {
     };
   },
   methods: {
+    myEvents() {
+      this.$router.push({ path: "/myevents" });
+    },
     encodeToBase64(event) {
       event.preventDefault();
       const file = event.target.files[0];
@@ -124,6 +134,7 @@ export default {
           body: this.body,
           people: this.people,
           location: this.location,
+          creator: sessionStorage.getItem("username"),
           datetime: this.datetime,
           filename: this.images.filename,
           image: this.images.image,
@@ -143,10 +154,10 @@ export default {
           });
         } else {
           const loadingComponent = this.$buefy.loading.open({
-                container: null
-              });
+            container: null
+          });
           var tostring = data.datetime.toString();
-          var subs = tostring.substring(0,24)
+          var subs = tostring.substring(0, 24);
           data.datetime = subs;
           createNote(data)
             .then(data => {
@@ -164,7 +175,6 @@ export default {
                 message: "Posted successfully!",
                 type: "is-success"
               });
-              
             })
             .catch(err => alert(err.message));
         }

@@ -46,6 +46,7 @@ export function createNote(data) {
 		body: data.body,
 		people: data.people,
 		location: data.location,
+		creator: data.creator,
 		datetime: data.datetime,
 		filename: data.filename,
 		image: data.image,

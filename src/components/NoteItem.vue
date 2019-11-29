@@ -2,9 +2,10 @@
   <article class="message is-info" style="margin-top: 5%">
     <div class="message-header">
       <p>Event Title: {{ note.title }}</p>
-      <button @click="deleteNote" class="delete" aria-label="delete"></button>
+      <button @click="deleteNote" class="delete" aria-label="delete" v-if="this.creator == note.creator"></button>
     </div>
     <div class="message-body">
+       <p class="is-pulled-left">Creator: {{note.creator}}</p><br> <!-- note.creator -->
       <img v-bind:src="note.image" id="image" @click="imageModal()">
       <br>
       <b-field label="About">
@@ -27,7 +28,7 @@
       <br>
       <span class="has-text-grey">Last updated: {{note.date_updated }}</span>
       <br>
-      <UpdateNoteModal :note="note" @updateNote="updateNote" :key="note._id"/>
+      <UpdateNoteModal :note="note" @updateNote="updateNote" :key="note._id" v-if="this.creator == note.creator"/>
     </div>
   </article>
 </template>
@@ -41,6 +42,8 @@ export default {
   props: ["note"],
   data() {
     return {
+      close: false,
+      creator: sessionStorage.getItem("username"),
       members: {
         picture: require("../assets/logo.png")
       }
