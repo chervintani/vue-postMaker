@@ -53,7 +53,7 @@ export default {
   methods: {
     imageModal() {
       this.$buefy.modal.open(
-        `<p class="image is-4by3">
+        `<p class="image is-2by2">
           <img src="${this.note.image}">
         </p>`
       );

@@ -8,7 +8,7 @@
       </template>
       <template slot="end">
         <b-field style="margin-top:3%;margin-right: 2%">
-          <b-input placeholder="Search..." type="search" v-model="searching"></b-input>
+          <b-input placeholder="Search event title..." type="search" v-model="searching"></b-input>
           <p class="control">
             <b-button class="button title is-6 is-outlined" @click="searched" id="search">Search</b-button>
           </p>
@@ -157,6 +157,7 @@ export default {
             this.notes.push(data.notes[i])
           }
         }
+        this.noteSearch = this.notes;
         console.log(data.notes.length)
         
 
