@@ -82,7 +82,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import NoteItem from "./NoteItem.vue";
 import CreateNoteModal from "./CreateNoteModal";
 import UpdateProfModal from "./UpdateProfModal";
@@ -129,7 +128,6 @@ export default {
         searchNote(this.searching).then(data => {
           loadingComponent.close();
           if (data.data.length <= 0) {
-            console.log("Search not found");
             $("#noResult").show();
             $("#noResult").text(data.search + "'");
             this.notFound = true;

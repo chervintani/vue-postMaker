@@ -101,7 +101,6 @@ export default {
             actionText: "Undo",
             queue: false,
             onAction: () => {
-              console.log("I reached undo");
               let data = retrieveData;
               createNote(data).then(data => {
                 this.$emit("createNote", data.note);
