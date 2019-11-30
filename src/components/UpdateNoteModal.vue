@@ -14,7 +14,7 @@
               <b-input placeholder="Title" icon-pack="fas" icon="pencil-alt" v-model="title"></b-input>
             </b-field>
           </div>
-          <br />
+          <br>
           <b-field label="Put a content..." :label-position="labelPosition" rounded>
             <b-input
               maxlength="200"
@@ -41,11 +41,12 @@
             <div class="upload-cover">
               <b-icon icon-pack="fas" icon="upload"></b-icon>&nbsp; Upload image
             </div>
-            <input type="file" accept="image/*" @change="encodeToBase64" id="file" />
+            <input type="file" accept="image/*" @change="encodeToBase64" id="file">
           </div>
-          <br />
-          <input v-model="filename"/>
-          <img v-bind:src="note.image" id="image" />
+          <br>
+          <!-- <input v-model="filename"/> -->
+          <img v-bind:src="note.image" id="image" v-if="this.displayImage.length<=0">
+          <img class="preview" id="image" :src="displayImage" v-else>
         </section>
         <footer class="modal-card-foot">
           <button
@@ -75,7 +76,8 @@ export default {
       datetime: this.note.datetime,
       filename: this.note.filename,
       isActive: false,
-      images: null
+      images: null,
+      displayImage: ""
     };
   },
   props: ["note"],
@@ -99,22 +101,21 @@ export default {
         var a = document.getElementById("file").value;
         var b = a.split("\\");
         this.images = { filename: b[2], image: img.src };
-
+        this.displayImage = img.src;
       };
       reader.readAsDataURL(file);
       var temp = document.getElementById("file").value.split("\\");
       this.file = temp[2];
-
     },
     update() {
       const loadingComponent = this.$buefy.loading.open({
         container: null
       });
-      if(!this.images){
+      if (!this.images) {
         this.images = {
           filename: this.note.filename,
           image: this.note.image
-        }
+        };
       }
       let data = {
         title: this.title,
@@ -123,11 +124,11 @@ export default {
         location: this.location,
         datetime: this.datetime,
         filename: this.images.filename,
-        image: this.images.image,
+        image: this.displayImage,
         date_created: this.note.date_created,
         date_updated: Moment().format("MMMM Do YYYY, h:mm:ss a")
       };
-      
+
       updateNote(data, this.note._id)
         .then(data => {
           loadingComponent.close();
@@ -142,6 +143,14 @@ export default {
     },
     toggle() {
       this.isActive = !this.isActive;
+
+      this.title= this.note.title,
+      this.body= this.note.body,
+      this.people=this.note.people,
+      this.location= this.note.location,
+      this.datetime=this.note.datetime,
+      this.filename= this.note.filename,
+      this.displayImage = ""
     }
   }
 };
@@ -210,6 +219,7 @@ label {
 
 #image:hover {
   box-shadow: 2px 2px 10px grey;
+  transition: 0.3s
 }
 
 body {
@@ -231,5 +241,12 @@ body {
   cursor: pointer;
   opacity: 0;
   filter: alpha(opacity=0);
+}
+img.preview {
+  width: 40%;
+  max-height: 100%;
+  background-color: white;
+  border: 1px solid #ddd;
+  padding: 5px;
 }
 </style>

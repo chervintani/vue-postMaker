@@ -142,9 +142,7 @@ export default {
     },
     home(e) {
       e.preventDefault();
-      this.notes = this.noteSearch;
-      this.notFound = false;
-      window.location.reload();
+      this.$router.push({path: "/home"});
     }
   },
   mounted() {
@@ -160,6 +158,8 @@ export default {
           }
         }
         console.log(data.notes.length)
+        
+
         
         // this.notes = data.notes;
         // this.noteSearch = this.notes;

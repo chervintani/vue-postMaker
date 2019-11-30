@@ -52,15 +52,15 @@
               :timepicker="{ hourFormat: format }"
             ></b-datetimepicker>
           </b-field>
-
-          <!-- <textarea v-model="body" class="textarea" placeholder="Enter content"></textarea> -->
           <div class="upload-button">
             <div class="upload-cover">
               <b-icon icon-pack="fas" icon="upload"></b-icon>&nbsp; Upload image
             </div>
             <input type="file" accept="image/*" @change="encodeToBase64" id="file">
-          </div>
-          <br>
+          </div><br><br><br>
+          <div class="image-preview" v-if="imageData.length > 0">
+              <img class="preview" :src="imageData">
+            </div>
           <span class="file-name" id="filename" v-if="file">{{ file }}</span>
         </section>
 
@@ -89,7 +89,8 @@ export default {
       datetime: null,
       images: null,
       isActive: false,
-      uploaded: false
+      uploaded: false,
+      imageData: ""
     };
   },
   methods: {
@@ -115,6 +116,7 @@ export default {
         var a = document.getElementById("file").value;
         var b = a.split("\\");
         this.images = { filename: b[2], image: img.src };
+        this.imageData = img.src
       };
       reader.readAsDataURL(file);
 
@@ -267,5 +269,12 @@ body {
   cursor: pointer;
   opacity: 0;
   filter: alpha(opacity=0);
+}
+img.preview {
+    width: 30%;
+    max-height: 100%;
+    background-color: white;
+    border: 1px solid #DDD;
+    padding: 5px;
 }
 </style>
