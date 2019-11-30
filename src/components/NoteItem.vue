@@ -2,10 +2,17 @@
   <article class="message is-info" style="margin-top: 5%">
     <div class="message-header">
       <p>Event Title: {{ note.title }}</p>
-      <button @click="deleteNote" class="delete" aria-label="delete" v-if="this.creator == note.creator"></button>
+      <button
+        @click="deleteNote"
+        class="delete"
+        aria-label="delete"
+        v-if="this.creator == note.creator"
+      ></button>
     </div>
     <div class="message-body">
-       <p class="is-pulled-left">Creator: {{note.creator}}</p><br> <!-- note.creator -->
+      <p class="is-pulled-left">Creator: {{note.creator}}</p>
+      <br>
+      <!-- note.creator -->
       <img v-bind:src="note.image" id="image" @click="imageModal()">
       <br>
       <b-field label="About">
@@ -28,7 +35,12 @@
       <br>
       <span class="has-text-grey">Last updated: {{note.date_updated }}</span>
       <br>
-      <UpdateNoteModal :note="note" @updateNote="updateNote" :key="note._id" v-if="this.creator == note.creator"/>
+      <UpdateNoteModal
+        :note="note"
+        @updateNote="updateNote"
+        :key="note._id"
+        v-if="this.creator == note.creator"
+      />
     </div>
   </article>
 </template>
@@ -60,51 +72,49 @@ export default {
     },
     deleteNote(e) {
       e.preventDefault();
-      const loadingComponent = this.$buefy.loading.open({
-        container: null
-      });
-      const title = this.note.title;
-      const body = this.note.body;
-      const people = this.note.people;
-      const location = this.note.location;
-      const datetime = this.note.datetime;
-      const filename = this.note.filename;
-      const image = this.note.image;
-      const date_created = this.note.date_created;
-      const date_updated = this.note.date_updated;
-      this.$buefy.snackbar.open({
-        duration: 5000,
-        message:
-          this.note.title +
-          " is deleted successfully!<br><em>Click UNDO to restore post</em>.",
+      let retrieveData = {
+        title: this.note.title,
+        body: this.note.body,
+        people: this.note.people,
+        location: this.note.location,
+        creator: this.note.creator,
+        datetime: this.note.datetime,
+        filename: this.note.filename,
+        image: this.note.image,
+        date_created: this.note.date_created,
+        date_updated: this.note.date_updated
+      };
+      this.$buefy.dialog.confirm({
+        title: "Deleting post",
+        message: "Are you sure you want to <b>delete</b> your post?",
+        confirmText: "Delete Post",
         type: "is-danger",
-        position: "is-bottom-left",
-        actionText: "Undo",
-        queue: false,
-        onAction: () => {
-          let data = {
-            title: title,
-            body: body,
-            people: people,
-            location: location,
-            datetime: datetime,
-            filename: filename,
-            image: image,
-            date_created: date_created,
-            date_updated: date_updated
-          };
-          createNote(data).then(data => {
-            this.$emit("createNote", data.note);
-            this.$buefy.toast.open({
-              message: "Refresh page to undo the post",
-              queue: false
-            });
-          });
-        }
+        hasIcon: true,
+        onConfirm: () =>
+          this.$buefy.snackbar.open({
+            duration: 5000,
+            message:
+              this.note.title +
+              " is deleted successfully!<br><em>Click UNDO to restore post</em>.",
+            type: "is-danger",
+            position: "is-bottom-left",
+            actionText: "Undo",
+            queue: false,
+            onAction: () => {
+              console.log("I reached undo");
+              let data = retrieveData;
+              createNote(data).then(data => {
+                this.$emit("createNote", data.note);
+                this.$buefy.toast.open({
+                  message: "Refresh page to undo the post",
+                  queue: false
+                });
+              });
+            }
+          })
       });
       deleteNote(this.note._id)
         .then(() => {
-          loadingComponent.close();
           this.$emit("deleteNote", this.note._id);
         })
         .catch(err => alert(err));
@@ -112,7 +122,7 @@ export default {
     updateNote(note) {
       this.$emit("updateNote", note);
     }
-  },
+  }
 };
 </script>
 <style scoped>

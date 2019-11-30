@@ -124,7 +124,7 @@ export default {
         location: this.location,
         datetime: this.datetime,
         filename: this.images.filename,
-        image: this.displayImage,
+        image: this.images.image,
         date_created: this.note.date_created,
         date_updated: Moment().format("MMMM Do YYYY, h:mm:ss a")
       };

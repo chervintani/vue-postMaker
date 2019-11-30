@@ -171,7 +171,7 @@ export default {
               this.datetime = null;
               this.file = "";
               this.$emit("createNote", data.note);
-              location.reload();
+              // location.reload();
               this.toggle();
               this.$buefy.toast.open({
                 message: "Posted successfully!",

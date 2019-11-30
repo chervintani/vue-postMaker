@@ -158,10 +158,6 @@ export default {
           }
         }
         this.noteSearch = this.notes;
-        console.log(data.notes.length)
-        
-
-        
         // this.notes = data.notes;
         // this.noteSearch = this.notes;
       })

@@ -67,6 +67,14 @@ export function updateNote(data, id) {
 		.catch(err => Promise.reject(err.message));
 }
 
+export function searchNote(data) {
+	return axios.get(`${BASE_URL}/api/note/search/${data}`)
+		.then(response => {
+			return response.data
+		})
+		.catch(err => Promise.reject(err.message));
+}
+
 export function uploadImage(data) {
 	return axios.post(`${BASE_URL}/upload`, { data })
 		.then(response => {
@@ -74,6 +82,8 @@ export function uploadImage(data) {
 		})
 		.catch(err => Promise.reject(err.message));
 }
+
+
 
 // export function undoNote() {
 // 	return axios.post(`${BASE_URL}/api/note/undo`)

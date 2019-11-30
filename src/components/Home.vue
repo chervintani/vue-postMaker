@@ -19,11 +19,12 @@
             <CreateNoteModal @createNote="createNote"/>
             <b-dropdown aria-role="list">
               <button class="button is-primary" slot="trigger">
-                <span id="username" v-html="user" style="margin-right:10%" ></span>
+                <span id="username" v-html="user" style="margin-right:10%"></span>
                 <img id="avatar" src="../assets/download.png">
                 <b-icon icon-pack="fas" icon="chevron-down" size="is-small"></b-icon>
               </button>
-              <b-dropdown-item aria-role="listitem" href="/#"> <!-- SWITCH TO PROFILE ROUTER PATH -->
+              <b-dropdown-item aria-role="listitem" href="/#">
+                <!-- SWITCH TO PROFILE ROUTER PATH -->
                 <p class="title is-6">Profile</p>
               </b-dropdown-item>
               <b-dropdown-item aria-role="listitem" href="/login">
@@ -39,10 +40,18 @@
       <div v-if="notes">
         <br>
         <div>
-          <p class="title is-3 has-text-dark" style="text-align:center" v-if="notFound">
-            No results found for
-            <span id="noResult"></span>
-          </p>
+          <div style="overflow: hidden;">
+            <p
+              v-if="notFound"
+              style="margin:1;display:inline;float:left"
+              class="title is-3 has-text-dark"
+            >No results found for '</p>
+            <p
+              style="margin:1;display:inline:float:right"
+              class="title is-3 has-text-dark"
+              id="noResult"
+            ></p>
+          </div>
           <noteItem
             v-for="(note, index) in notes"
             :note="note"
@@ -62,9 +71,7 @@
           <button class="delete" aria-label="close" @click="toggle"></button>
         </header>
         <section class="modal-card-body">
-          <div class="control">
-            
-          </div>
+          <div class="control"></div>
         </section>
         <footer class="modal-card-foot">
           <button class="button is-success is-outlined is-fullwidth is-rounded">Update</button>
@@ -75,10 +82,11 @@
 </template>
 
 <script>
+import axios from "axios";
 import NoteItem from "./NoteItem.vue";
 import CreateNoteModal from "./CreateNoteModal";
 import UpdateProfModal from "./UpdateProfModal";
-import { getNotes } from "../repository";
+import { getNotes, searchNote } from "../repository";
 import $ from "jquery";
 export default {
   name: "home",
@@ -86,7 +94,6 @@ export default {
   data() {
     return {
       notes: [],
-      noteSearch: [],
       searching: "",
       notFound: false,
       user: sessionStorage.getItem("username"),
@@ -114,40 +121,35 @@ export default {
     createNote(note) {
       this.notes = [note, ...this.notes];
     },
-    searched(e) {
-      e.preventDefault();
-      let keyword = this.searching;
-      let a = this.noteSearch.filter(function(post) {
-        return post.title == keyword;
-      });
-      if (this.searching != "") {
-        for (var i = 0; i < this.noteSearch.length; ++i) {
-          if (this.noteSearch[i].title == keyword) {
-            this.notFound = false;
+    searched() {
+      if (!this.searching.match(/^\s*$/)) {
+        const loadingComponent = this.$buefy.loading.open({
+          container: null
+        });
+        searchNote(this.searching).then(data => {
+          loadingComponent.close();
+          if (data.data.length <= 0) {
+            console.log("Search not found");
+            $("#noResult").show();
+            $("#noResult").text(data.search + "'");
+            this.notFound = true;
             this.notes = [];
-            this.notes.push(a[0]);
-            break;
           } else {
-            if (
-              this.noteSearch[i] == this.noteSearch[this.noteSearch.length - 1]
-            ) {
-              // console.log("Search not found");
-              $("#noResult").text(this.searching);
-              this.notFound = true;
-              this.notes = [];
-            }
+            this.notFound = false;
+            $("#noResult").hide();
+            this.notes = [];
+            this.notes = data.data;
           }
-        }
+        });
       }
     },
-    home(e) {
-      e.preventDefault();
-      this.notes = this.noteSearch;
+    home() {
       this.notFound = false;
       window.location.reload();
     }
   },
   mounted() {
+    $("#noResult").hide();
     const loadingComponent = this.$buefy.loading.open({
       container: null
     });
@@ -155,17 +157,9 @@ export default {
       .then(data => {
         loadingComponent.close();
         this.notes = data.notes;
-        this.noteSearch = this.notes;
       })
       .catch(err => alert(err));
   }
-  // computed: {
-  //   filteredList() {
-  //     return this.notes.filter(post => {
-  //       return post.title.toLowerCase().includes(this.search.toLowerCase());
-  //     });
-  //   }
-  // }
 };
 </script>
 <style scoped>
@@ -183,6 +177,6 @@ export default {
   text-overflow: ellipsis;
 }
 #avatar {
-  border-radius: 50%
+  border-radius: 50%;
 }
 </style>
