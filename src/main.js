@@ -9,13 +9,13 @@ Vue.use(Buefy, {
   defaultIconPack: 'fas'
 });
 
-Vue.use(require('vue-pusher'), {
-  api_key: '909399',
-  options: {
-      cluster: 'ap1',
-      encrypted: true,
-  }
-});
+// Vue.use(require('vue-pusher'), {
+//   api_key: '909399',
+//   options: {
+//       cluster: 'ap1',
+//       encrypted: true,
+//   }
+// });
 
 new Vue({
   router,

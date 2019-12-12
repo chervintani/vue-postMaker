@@ -23,10 +23,10 @@
                 <img id="avatar" src="../assets/download.png">
                 <b-icon icon-pack="fas" icon="chevron-down" size="is-small"></b-icon>
               </button>
-              <b-dropdown-item aria-role="listitem" href="/#">
-                <!-- SWITCH TO PROFILE ROUTER PATH -->
+              <!-- <b-dropdown-item aria-role="listitem" href="/#">
+                SWITCH TO PROFILE ROUTER PATH
                 <p class="title is-6">Profile</p>
-              </b-dropdown-item>
+              </b-dropdown-item> -->
               <b-dropdown-item aria-role="listitem" href="/login">
                 <p class="title is-6" @click="loggedOut">Logout</p>
               </b-dropdown-item>
